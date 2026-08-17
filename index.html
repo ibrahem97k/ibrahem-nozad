@@ -6,9 +6,7 @@
 <title>ibo TV 📺</title>
 
 <style>
-*{
-    box-sizing:border-box;
-}
+*{box-sizing:border-box}
 
 body{
     margin:0;
@@ -17,7 +15,6 @@ body{
     color:white;
 }
 
-/* HEADER */
 header{
     background:#1680e8;
     text-align:center;
@@ -34,7 +31,6 @@ header p{
     font-size:22px;
 }
 
-/* CHANNEL MENU */
 .channel-menu{
     background:#09294e;
     padding:12px;
@@ -62,7 +58,6 @@ header p{
     color:#0872d8;
 }
 
-/* CONTENT */
 main{
     max-width:900px;
     margin:auto;
@@ -97,7 +92,6 @@ video,
     white-space:pre-wrap;
 }
 
-/* FOOTER */
 footer{
     background:#06162b;
     text-align:center;
@@ -106,7 +100,6 @@ footer{
     line-height:2.3;
 }
 
-/* ADMIN BUTTON */
 .admin-button{
     position:fixed;
     left:20px;
@@ -121,7 +114,6 @@ footer{
     cursor:pointer;
 }
 
-/* MODAL */
 .modal{
     display:none;
     position:fixed;
@@ -195,36 +187,46 @@ textarea{
     padding:12px;
     margin-top:15px;
 }
+
+.login-title{
+    text-align:center;
+    font-size:30px;
+}
+
+.login-input{
+    direction:ltr;
+    text-align:left;
+}
+
+.error{
+    color:#ff8080;
+    display:none;
+    margin:8px 0;
+}
 </style>
 </head>
 
 <body>
 
-<!-- HEADER -->
 <header>
     <h1>ibo TV 📺</h1>
     <p>بەخێربێیت بۆ ibo TV</p>
 </header>
 
-<!-- CHANNELS -->
 <div class="channel-menu" id="channelMenu"></div>
 
-<!-- CONTENT -->
 <main id="content"></main>
 
-<!-- FOOTER -->
 <footer>
     07701056497 📞<br>
     Snapchat: ibrahemn.qader 👻<br>
     ibo TV 2026 ©
 </footer>
 
-<!-- ADMIN BUTTON -->
 <button class="admin-button" onclick="openAdmin()">
     Admin 🔐
 </button>
 
-<!-- ADMIN WINDOW -->
 <div class="modal" id="adminModal">
 
     <div class="admin-panel">
@@ -232,23 +234,43 @@ textarea{
         <!-- LOGIN -->
         <div id="loginBox">
 
-            <h2>Admin 🔐</h2>
+            <h2 class="login-title">
+                چوونەژوورەوە 🔐
+            </h2>
 
             <p>
-                بۆ دەستکاریکردنی Channel ـەکان
-                password ـەکە بنووسە.
+                تکایە Username و Password بنووسە.
             </p>
+
+            <label>Username:</label>
+
+            <input
+                type="text"
+                id="adminUsername"
+                class="login-input"
+                placeholder="Username"
+                autocomplete="username"
+            >
+
+            <label>Password:</label>
 
             <input
                 type="password"
                 id="adminPassword"
+                class="login-input"
                 placeholder="Password"
+                autocomplete="current-password"
+                onkeydown="if(event.key==='Enter') loginAdmin()"
             >
+
+            <div id="loginError" class="error">
+                Username یان Password هەڵەیە ❌
+            </div>
 
             <div class="admin-row">
 
                 <button class="save" onclick="loginAdmin()">
-                    چوونەژوورەوە
+                    چوونەژوورەوە 🔓
                 </button>
 
                 <button class="close" onclick="closeAdmin()">
@@ -263,7 +285,9 @@ textarea{
         <!-- EDITOR -->
         <div id="editorBox" style="display:none;">
 
-            <h2>بەڕێوەبردنی ibo TV 📺</h2>
+            <h2>
+                بەڕێوەبردنی ibo TV 📺
+            </h2>
 
             <label>
                 Channel هەڵبژێرە:
@@ -310,6 +334,7 @@ textarea{
             <input
                 id="videoUrl"
                 placeholder="https://example.com/video.mp4"
+                dir="ltr"
             >
 
 
@@ -329,15 +354,17 @@ textarea{
 
                 <button
                     class="close"
-                    onclick="closeAdmin()">
-                    داخستن
+                    onclick="logoutAdmin()">
+                    Logout 🔒
                 </button>
 
             </div>
 
             <div class="info">
-                تێبینی: دەتوانیت بۆ هەر Channel ناو، تێکست،
+                دەتوانیت بۆ هەر Channel ناو، تێکست،
                 وێنە و لینکی ڤیدیۆ دابنێیت.
+                <br><br>
+                کەنالەکان لە Channel 1 تا Channel 14 ـن.
             </div>
 
         </div>
@@ -348,25 +375,21 @@ textarea{
 
 <script>
 
-/*
-=====================================
-PASSWORD
-=====================================
+/* ================================
+   LOGIN INFORMATION
+================================ */
 
-ئەمە بگۆڕە بۆ password ـی خۆت
-*/
+const ADMIN_USERNAME = "ibrahem97k";
+const ADMIN_PASSWORD = "IBib1997";
 
-const ADMIN_PASSWORD = "CHANGE_ME";
+let isAdminLoggedIn = false;
 
 
-/*
-=====================================
-CHANNEL DATA
-=====================================
-*/
+/* ================================
+   CHANNEL DATA
+================================ */
 
 const STORAGE_KEY = "ibo_tv_channels";
-
 
 let defaultChannels = [];
 
@@ -374,54 +397,96 @@ for(let i = 1; i <= 14; i++){
 
     defaultChannels.push({
 
-        name: "Channel " + i,
+        name:"Channel " + i,
 
-        text: "",
+        text:"",
 
-        image: "",
+        image:"",
 
-        video: ""
+        video:""
 
     });
 
 }
 
 
-/*
-=====================================
-LOAD DATA
-=====================================
-*/
+/* ================================
+   LOAD SAVED CHANNELS
+================================ */
 
-let channels =
-    JSON.parse(localStorage.getItem(STORAGE_KEY))
-    || defaultChannels;
+let channels;
 
+try{
 
-let currentChannel = 0;
+    channels =
+        JSON.parse(
+            localStorage.getItem(STORAGE_KEY)
+        ) || defaultChannels;
 
+}catch(error){
 
-/*
-=====================================
-SAVE DATA
-=====================================
-*/
-
-function saveData(){
-
-    localStorage.setItem(
-        STORAGE_KEY,
-        JSON.stringify(channels)
-    );
+    channels = defaultChannels;
 
 }
 
 
-/*
-=====================================
-CREATE CHANNEL BUTTONS
-=====================================
-*/
+/* ================================
+   FIX OLD DATA
+================================ */
+
+while(channels.length < 14){
+
+    const number = channels.length + 1;
+
+    channels.push({
+
+        name:"Channel " + number,
+
+        text:"",
+
+        image:"",
+
+        video:""
+
+    });
+
+}
+
+
+/* ================================
+   VARIABLES
+================================ */
+
+let currentChannel = 0;
+
+
+/* ================================
+   SAVE DATA
+================================ */
+
+function saveData(){
+
+    try{
+
+        localStorage.setItem(
+            STORAGE_KEY,
+            JSON.stringify(channels)
+        );
+
+    }catch(error){
+
+        alert(
+            "پاشەکەوتکردن سەرکەوتوو نەبوو. 🔴"
+        );
+
+    }
+
+}
+
+
+/* ================================
+   RENDER CHANNEL BUTTONS
+================================ */
 
 function renderChannels(){
 
@@ -435,6 +500,7 @@ function renderChannels(){
 
         const button =
             document.createElement("button");
+
 
         button.innerText =
             channel.name ||
@@ -466,11 +532,9 @@ function renderChannels(){
 }
 
 
-/*
-=====================================
-SHOW CHANNEL
-=====================================
-*/
+/* ================================
+   SHOW CHANNEL CONTENT
+================================ */
 
 function renderContent(){
 
@@ -478,16 +542,22 @@ function renderContent(){
         channels[currentChannel];
 
 
+    if(!channel){
+
+        return;
+
+    }
+
+
     let media = "";
 
 
-    /*
-    VIDEO
-    */
+    /* VIDEO */
 
     if(channel.video){
 
         media = `
+
         <div class="card">
 
             <video
@@ -497,18 +567,18 @@ function renderContent(){
             </video>
 
         </div>
+
         `;
 
     }
 
 
-    /*
-    IMAGE
-    */
+    /* IMAGE */
 
     else if(channel.image){
 
         media = `
+
         <div class="card">
 
             <img
@@ -516,6 +586,7 @@ function renderContent(){
                 alt="ibo TV">
 
         </div>
+
         `;
 
     }
@@ -528,12 +599,13 @@ function renderContent(){
         <div class="card">
 
             <h2 class="channel-title">
+
                 ${escapeHTML(
                     channel.name ||
                     "Channel " + (currentChannel + 1)
                 )}
-            </h2>
 
+            </h2>
 
             <div class="channel-text">
 
@@ -552,11 +624,9 @@ function renderContent(){
 }
 
 
-/*
-=====================================
-ADMIN OPEN
-=====================================
-*/
+/* ================================
+   OPEN ADMIN
+================================ */
 
 function openAdmin(){
 
@@ -576,17 +646,28 @@ function openAdmin(){
 
 
     document.getElementById(
+        "adminUsername"
+    ).value = "";
+
+
+    document.getElementById(
         "adminPassword"
     ).value = "";
+
+
+    document.getElementById(
+        "loginError"
+    ).style.display = "none";
+
+
+    isAdminLoggedIn = false;
 
 }
 
 
-/*
-=====================================
-ADMIN CLOSE
-=====================================
-*/
+/* ================================
+   CLOSE ADMIN
+================================ */
 
 function closeAdmin(){
 
@@ -597,13 +678,17 @@ function closeAdmin(){
 }
 
 
-/*
-=====================================
-ADMIN LOGIN
-=====================================
-*/
+/* ================================
+   LOGIN
+================================ */
 
 function loginAdmin(){
+
+    const username =
+        document.getElementById(
+            "adminUsername"
+        ).value.trim();
+
 
     const password =
         document.getElementById(
@@ -611,7 +696,22 @@ function loginAdmin(){
         ).value;
 
 
-    if(password === ADMIN_PASSWORD){
+    const error =
+        document.getElementById(
+            "loginError"
+        );
+
+
+    if(
+        username === ADMIN_USERNAME &&
+        password === ADMIN_PASSWORD
+    ){
+
+        isAdminLoggedIn = true;
+
+
+        error.style.display = "none";
+
 
         document.getElementById(
             "loginBox"
@@ -631,18 +731,55 @@ function loginAdmin(){
 
     else{
 
-        alert("Password هەڵەیە ❌");
+        error.style.display = "block";
+
+        document.getElementById(
+            "adminPassword"
+        ).value = "";
 
     }
 
 }
 
 
-/*
-=====================================
-CHANNEL SELECT
-=====================================
-*/
+/* ================================
+   LOGOUT
+================================ */
+
+function logoutAdmin(){
+
+    isAdminLoggedIn = false;
+
+    document.getElementById(
+        "editorBox"
+    ).style.display = "none";
+
+
+    document.getElementById(
+        "loginBox"
+    ).style.display = "block";
+
+
+    document.getElementById(
+        "adminUsername"
+    ).value = "";
+
+
+    document.getElementById(
+        "adminPassword"
+    ).value = "";
+
+
+    document.getElementById(
+        "loginError"
+    ).style.display = "none";
+
+}
+
+
+/* ================================
+   CHANNEL SELECT
+================================ */
 
 function createChannelSelect(){
 
@@ -679,6 +816,13 @@ function createChannelSelect(){
 
     select.onchange = function(){
 
+        if(!isAdminLoggedIn){
+
+            return;
+
+        }
+
+
         currentChannel =
             Number(this.value);
 
@@ -690,13 +834,18 @@ function createChannelSelect(){
 }
 
 
-/*
-=====================================
-LOAD EDITOR
-=====================================
-*/
+/* ================================
+   LOAD EDITOR
+================================ */
 
 function loadEditor(){
+
+    if(!isAdminLoggedIn){
+
+        return;
+
+    }
+
 
     const channel =
         channels[currentChannel];
@@ -732,13 +881,20 @@ function loadEditor(){
 }
 
 
-/*
-=====================================
-SAVE CHANNEL
-=====================================
-*/
+/* ================================
+   SAVE CHANNEL
+================================ */
 
 function saveChannel(){
+
+    if(!isAdminLoggedIn){
+
+        alert("تکایە سەرەتا بچۆ ژوورەوە. 🔒");
+
+        return;
+
+    }
+
 
     const channel =
         channels[currentChannel];
@@ -770,9 +926,7 @@ function saveChannel(){
         ).files[0];
 
 
-    /*
-    IMAGE
-    */
+    /* IMAGE */
 
     if(file){
 
@@ -789,18 +943,7 @@ function saveChannel(){
             saveData();
 
 
-            renderChannels();
-
-            renderContent();
-
-            createChannelSelect();
-
-            loadEditor();
-
-
-            alert(
-                "Channel بە سەرکەوتوویی پاشەکەوت کرا ✅"
-            );
+            finishSave();
 
         };
 
@@ -810,40 +953,55 @@ function saveChannel(){
     }
 
 
-    /*
-    WITHOUT IMAGE
-    */
+    /* WITHOUT IMAGE */
 
     else{
 
         saveData();
 
-
-        renderChannels();
-
-        renderContent();
-
-        createChannelSelect();
-
-        loadEditor();
-
-
-        alert(
-            "Channel بە سەرکەوتوویی پاشەکەوت کرا ✅"
-        );
+        finishSave();
 
     }
 
 }
 
 
-/*
-=====================================
-DELETE CHANNEL CONTENT
-=====================================
-*/
+/* ================================
+   AFTER SAVE
+================================ */
+
+function finishSave(){
+
+    renderChannels();
+
+    renderContent();
+
+    createChannelSelect();
+
+    loadEditor();
+
+
+    alert(
+        "Channel بە سەرکەوتوویی پاشەکەوت کرا ✅"
+    );
+
+}
+
+
+/* ================================
+   DELETE CHANNEL CONTENT
+================================ */
 
 function deleteChannel(){
+
+    if(!isAdminLoggedIn){
+
+        alert("تکایە سەرەتا بچۆ ژوورەوە. 🔒");
+
+        return;
+
+    }
+
 
     const answer =
         confirm(
@@ -864,11 +1022,11 @@ function deleteChannel(){
             "Channel " +
             (currentChannel + 1),
 
-        text: "",
+        text:"",
 
-        image: "",
+        image:"",
 
-        video: ""
+        video:""
 
     };
 
@@ -892,29 +1050,50 @@ function deleteChannel(){
 }
 
 
-/*
-=====================================
-SECURITY / HTML TEXT
-=====================================
-*/
+/* ================================
+   ESCAPE HTML
+================================ */
 
 function escapeHTML(text){
 
     return String(text)
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#039;");
+
+        .replace(/&/g,"&amp;")
+
+        .replace(/</g,"&lt;")
+
+        .replace(/>/g,"&gt;")
+
+        .replace(/"/g,"&quot;")
+
+        .replace(/'/g,"&#039;");
 
 }
 
 
-/*
-=====================================
-START
-=====================================
-*/
+/* ================================
+   CLOSE MODAL WHEN CLICK OUTSIDE
+================================ */
+
+document.getElementById(
+    "adminModal"
+).addEventListener(
+    "click",
+    function(event){
+
+        if(event.target === this){
+
+            closeAdmin();
+
+        }
+
+    }
+);
+
+
+/* ================================
+   START
+================================ */
 
 renderChannels();
 
