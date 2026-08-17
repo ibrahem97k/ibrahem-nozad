@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>IBO TV - Afarin Kids</title>
+
+  <title>ibo TV</title>
 
   <style>
     * {
@@ -12,118 +13,181 @@
 
     body {
       margin: 0;
-      background: #050505;
+      font-family: Arial, Tahoma, sans-serif;
+      background: #061d3b;
       color: white;
-      font-family: Arial, sans-serif;
     }
 
-    header {
-      height: 80px;
-      background: #0066ff;
-      display: flex;
-      align-items: center;
-      padding: 0 20px;
-      gap: 15px;
+    /* Header */
+    .header {
+      background: #1687ed;
+      text-align: center;
+      padding: 35px 15px 40px;
     }
 
     .logo {
-      font-size: 28px;
+      font-size: 55px;
       font-weight: bold;
+      direction: ltr;
     }
 
-    .menu {
-      font-size: 30px;
+    .welcome {
+      font-size: 28px;
+      margin-top: 15px;
     }
 
-    .container {
-      width: 95%;
-      max-width: 1000px;
-      margin: 20px auto;
+    /* Channels */
+    .channels {
+      background: #092c55;
+      padding: 18px 10px;
+      display: flex;
+      gap: 12px;
+      overflow-x: auto;
+      direction: rtl;
+    }
+
+    .channel-btn {
+      flex: 0 0 auto;
+      min-width: 150px;
+      padding: 16px 25px;
+      border: none;
+      border-radius: 25px;
+      background: #1687ed;
+      color: white;
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    .channel-btn.active {
+      background: white;
+      color: #1673c5;
+    }
+
+    /* Player */
+    .player-box {
+      width: calc(100% - 50px);
+      max-width: 900px;
+      margin: 45px auto 25px;
+      padding: 30px;
+      background: #123d6c;
+      border-radius: 35px;
     }
 
     .player {
-      background: #000;
-      border: 3px solid #0066ff;
-      border-radius: 10px;
-      overflow: hidden;
-      aspect-ratio: 16 / 9;
-    }
-
-    iframe {
       width: 100%;
-      height: 100%;
-      border: 0;
+      height: 500px;
+      background: #000;
+      border: none;
+      border-radius: 25px;
     }
 
-    .channel-title {
-      margin-top: 15px;
-      padding: 18px;
-      background: #101010;
-      border: 2px solid #0066ff;
-      border-radius: 12px;
+    /* Channel information */
+    .info {
+      width: calc(100% - 50px);
+      max-width: 900px;
+      margin: 30px auto;
+      background: #123d6c;
+      border-radius: 30px;
+      padding: 35px;
       text-align: center;
+    }
+
+    .info h2 {
+      font-size: 38px;
+      margin-top: 0;
+    }
+
+    .info p {
+      font-size: 25px;
+    }
+
+    /* Admin */
+    .admin-area {
+      text-align: center;
+      margin: 30px 0 50px;
+    }
+
+    .admin-btn {
+      background: #1687ed;
+      color: white;
+      border: none;
+      border-radius: 25px;
+      padding: 18px 35px;
       font-size: 22px;
-      font-weight: bold;
-    }
-
-    .buttons {
-      display: flex;
-      gap: 15px;
-      justify-content: center;
-      margin-top: 20px;
-      flex-wrap: wrap;
-    }
-
-    button {
-      background: #0066ff;
-      color: white;
-      border: 0;
-      border-radius: 10px;
-      padding: 15px 30px;
-      font-size: 18px;
-      font-weight: bold;
       cursor: pointer;
     }
 
-    button:hover {
-      background: #004dcc;
+    /* Login */
+    .login-box {
+      display: none;
+      width: calc(100% - 50px);
+      max-width: 450px;
+      margin: 20px auto 50px;
+      background: #123d6c;
+      padding: 30px;
+      border-radius: 25px;
+      text-align: center;
     }
 
-    .channels {
-      margin-top: 25px;
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
-    }
-
-    .channel {
-      background: #111;
-      border: 1px solid #0066ff;
-      color: white;
+    .login-box input {
+      width: 100%;
       padding: 15px;
-      border-radius: 10px;
+      margin: 10px 0;
+      border-radius: 12px;
+      border: none;
+      font-size: 18px;
       text-align: center;
-      cursor: pointer;
     }
 
-    .channel:hover {
-      background: #0066ff;
+    .login-box button {
+      width: 100%;
+      padding: 15px;
+      margin-top: 10px;
+      border: none;
+      border-radius: 12px;
+      background: #1687ed;
+      color: white;
+      font-size: 18px;
     }
 
-    footer {
-      margin-top: 30px;
-      padding: 20px;
-      text-align: center;
-      background: #0066ff;
+    .error {
+      color: #ff7777;
+      margin-top: 10px;
     }
 
+    /* Mobile */
     @media (max-width: 600px) {
-      .channels {
-        grid-template-columns: 1fr;
+
+      .logo {
+        font-size: 43px;
       }
 
-      .channel-title {
-        font-size: 18px;
+      .welcome {
+        font-size: 22px;
+      }
+
+      .player-box {
+        width: calc(100% - 30px);
+        padding: 15px;
+        border-radius: 25px;
+      }
+
+      .player {
+        height: 250px;
+        border-radius: 18px;
+      }
+
+      .info {
+        width: calc(100% - 30px);
+        padding: 25px;
+      }
+
+      .info h2 {
+        font-size: 30px;
+      }
+
+      .info p {
+        font-size: 21px;
       }
     }
   </style>
@@ -131,114 +195,353 @@
 
 <body>
 
-<header>
-  <div class="menu">☰</div>
-  <div class="logo">IBO TV</div>
-</header>
+  <!-- Header -->
+  <header class="header">
+    <div class="logo">📺 ibo TV</div>
+    <div class="welcome">بەخێربێیت بۆ ibo TV</div>
+  </header>
 
-<div class="container">
 
-  <div class="player">
-    <iframe
-      src="https://karwan.tv/embed/109/"
-      allowfullscreen
-      allow="autoplay; fullscreen">
-    </iframe>
-  </div>
-
-  <div class="channel-title">
-    📺 Afarin Kids LIVE
-  </div>
-
-  <div class="buttons">
-    <button onclick="fullscreenPlayer()">⛶ Full Screen</button>
-    <button onclick="reloadPlayer()">🔄 نوێکردنەوە</button>
-  </div>
-
+  <!-- Channels -->
   <div class="channels">
 
-    <div class="channel" onclick="changeChannel('https://karwan.tv/embed/109/')">
-      📺 Afarin Kids
-    </div>
+    <button class="channel-btn active"
+            onclick="openChannel(1, this)">
+      Channel 1
+    </button>
 
-    <div class="channel">
-      📺 کەنال 2
-    </div>
+    <button class="channel-btn"
+            onclick="openChannel(2, this)">
+      Channel 2
+    </button>
 
-    <div class="channel">
-      📺 کەنال 3
-    </div>
+    <button class="channel-btn"
+            onclick="openChannel(3, this)">
+      Channel 3
+    </button>
 
-    <div class="channel">
-      📺 کەنال 4
-    </div>
+    <button class="channel-btn"
+            onclick="openChannel(4, this)">
+      Channel 4
+    </button>
 
-    <div class="channel">
-      📺 کەنال 5
-    </div>
+    <button class="channel-btn"
+            onclick="openChannel(5, this)">
+      Channel 5
+    </button>
 
-    <div class="channel">
-      📺 کەنال 6
-    </div>
+    <button class="channel-btn"
+            onclick="openChannel(6, this)">
+      Channel 6
+    </button>
 
-    <div class="channel">
-      📺 کەنال 7
-    </div>
+    <button class="channel-btn"
+            onclick="openChannel(7, this)">
+      Channel 7
+    </button>
 
-    <div class="channel">
-      📺 کەنال 8
-    </div>
+    <button class="channel-btn"
+            onclick="openChannel(8, this)">
+      Channel 8
+    </button>
 
-    <div class="channel">
-      📺 کەنال 9
-    </div>
+    <button class="channel-btn"
+            onclick="openChannel(9, this)">
+      Channel 9
+    </button>
 
-    <div class="channel">
-      📺 کەنال 10
-    </div>
+    <button class="channel-btn"
+            onclick="openChannel(10, this)">
+      Channel 10
+    </button>
 
-    <div class="channel">
-      📺 کەنال 11
-    </div>
+    <button class="channel-btn"
+            onclick="openChannel(11, this)">
+      Channel 11
+    </button>
 
-    <div class="channel">
-      📺 کەنال 12
-    </div>
+    <button class="channel-btn"
+            onclick="openChannel(12, this)">
+      Channel 12
+    </button>
 
-    <div class="channel">
-      📺 کەنال 13
-    </div>
+    <button class="channel-btn"
+            onclick="openChannel(13, this)">
+      Channel 13
+    </button>
 
-    <div class="channel">
-      📺 کەنال 14
-    </div>
+    <button class="channel-btn"
+            onclick="openChannel(14, this)">
+      Channel 14
+    </button>
 
   </div>
 
-</div>
 
-<footer>
-  © 2026 IBO TV
-</footer>
+  <!-- Video Player -->
+  <section class="player-box">
 
-<script>
-  function changeChannel(url) {
-    document.querySelector("iframe").src = url;
-  }
+    <iframe
+      id="player"
+      class="player"
+      src="https://karwan.tv/afarin-kids/"
+      allow="autoplay; fullscreen; picture-in-picture"
+      allowfullscreen>
+    </iframe>
 
-  function reloadPlayer() {
-    const iframe = document.querySelector("iframe");
-    iframe.src = iframe.src;
-  }
+  </section>
 
-  function fullscreenPlayer() {
-    const iframe = document.querySelector("iframe");
 
-    if (iframe.requestFullscreen) {
-      iframe.requestFullscreen();
+  <!-- Information -->
+  <section class="info">
+
+    <h2 id="channelTitle">
+      Channel 1
+    </h2>
+
+    <p id="channelText">
+      بەخێربێیت بۆ ibo TV
+    </p>
+
+  </section>
+
+
+  <!-- Admin -->
+  <div class="admin-area">
+
+    <button class="admin-btn"
+            onclick="showLogin()">
+      🔐 Admin
+    </button>
+
+  </div>
+
+
+  <!-- Login -->
+  <div class="login-box" id="loginBox">
+
+    <h2>🔐 Admin Login</h2>
+
+    <input
+      type="text"
+      id="username"
+      placeholder="Username">
+
+    <input
+      type="password"
+      id="password"
+      placeholder="Password">
+
+    <button onclick="login()">
+      چوونەژوورەوە
+    </button>
+
+    <div class="error" id="error"></div>
+
+  </div>
+
+
+  <script>
+
+    /*
+      CHANNEL LINKS
+
+      Channel 1:
+      لینکەکەی تۆیە.
+
+      بۆ Channel 2 تا 14 دەتوانیت
+      دواتر لینکەکانی خۆت دابنێیت.
+    */
+
+    const channels = {
+
+      1: {
+        name: "Channel 1",
+        url: "https://karwan.tv/afarin-kids/"
+      },
+
+      2: {
+        name: "Channel 2",
+        url: ""
+      },
+
+      3: {
+        name: "Channel 3",
+        url: ""
+      },
+
+      4: {
+        name: "Channel 4",
+        url: ""
+      },
+
+      5: {
+        name: "Channel 5",
+        url: ""
+      },
+
+      6: {
+        name: "Channel 6",
+        url: ""
+      },
+
+      7: {
+        name: "Channel 7",
+        url: ""
+      },
+
+      8: {
+        name: "Channel 8",
+        url: ""
+      },
+
+      9: {
+        name: "Channel 9",
+        url: ""
+      },
+
+      10: {
+        name: "Channel 10",
+        url: ""
+      },
+
+      11: {
+        name: "Channel 11",
+        url: ""
+      },
+
+      12: {
+        name: "Channel 12",
+        url: ""
+      },
+
+      13: {
+        name: "Channel 13",
+        url: ""
+      },
+
+      14: {
+        name: "Channel 14",
+        url: ""
+      }
+
+    };
+
+
+    /*
+      OPEN CHANNEL
+    */
+
+    function openChannel(number, button) {
+
+      const channel = channels[number];
+
+      document
+        .querySelectorAll(".channel-btn")
+        .forEach(btn => {
+          btn.classList.remove("active");
+        });
+
+      button.classList.add("active");
+
+      document.getElementById("channelTitle")
+        .textContent = channel.name;
+
+      const player =
+        document.getElementById("player");
+
+      if (channel.url !== "") {
+
+        player.src = channel.url;
+
+      } else {
+
+        player.srcdoc = `
+          <html>
+            <body style="
+              margin:0;
+              background:#000;
+              color:white;
+              display:flex;
+              align-items:center;
+              justify-content:center;
+              height:100vh;
+              font-family:Arial;
+              text-align:center;
+            ">
+              <div>
+                <h2>${channel.name}</h2>
+                <p>لینکی پەخش بۆ ئەم کەنالە دانەنراوە</p>
+              </div>
+            </body>
+          </html>
+        `;
+
+      }
+
     }
-  }
-</script>
+
+
+    /*
+      ADMIN LOGIN
+    */
+
+    function showLogin() {
+
+      const box =
+        document.getElementById("loginBox");
+
+      if (box.style.display === "block") {
+
+        box.style.display = "none";
+
+      } else {
+
+        box.style.display = "block";
+
+      }
+
+    }
+
+
+    function login() {
+
+      const username =
+        document.getElementById("username").value;
+
+      const password =
+        document.getElementById("password").value;
+
+      /*
+        ئەمانە تەنها بۆ demo ـن.
+        بۆ پاراستنی ڕاستەقینەی سایت،
+        login لە client-side ئاسایشێکی تەواو نییە.
+      */
+
+      if (
+        username === "ibrahem97k" &&
+        password === "IBib1997"
+      ) {
+
+        localStorage.setItem(
+          "iboAdmin",
+          "true"
+        );
+
+        window.location.href =
+          "admin.html";
+
+      } else {
+
+        document.getElementById("error")
+          .textContent =
+          "Username یان Password هەڵەیە";
+
+      }
+
+    }
+
+  </script>
 
 </body>
 </html>
