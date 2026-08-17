@@ -1,288 +1,364 @@
 <!DOCTYPE html>
 <html lang="ku" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kurd Games Live</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ibo TV</title>
 
-<style>
-*{box-sizing:border-box}
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
 
-body{
-    margin:0;
-    font-family:Arial,sans-serif;
-    background:#0b0f14;
-    color:white;
-}
+    body {
+      background: #061a36;
+      color: white;
+    }
 
-header{
-    padding:20px;
-    text-align:center;
-    background:#111820;
-    border-bottom:1px solid #26313d;
-}
+    header {
+      background: #0878e8;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 3px 15px #0008;
+    }
 
-header h1{
-    margin:0;
-}
+    header h1 {
+      font-size: 32px;
+    }
 
-.container{
-    max-width:900px;
-    margin:auto;
-    padding:20px;
-}
+    header p {
+      margin-top: 7px;
+      color: #dceeff;
+    }
 
-.admin{
-    background:#111820;
-    padding:20px;
-    border-radius:15px;
-    margin-bottom:25px;
-}
+    .container {
+      width: 94%;
+      max-width: 1100px;
+      margin: 25px auto;
+    }
 
-input{
-    width:100%;
-    padding:14px;
-    margin:7px 0;
-    border-radius:10px;
-    border:1px solid #394653;
-    background:#080c11;
-    color:white;
-    font-size:16px;
-}
+    .channels {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 18px;
+    }
 
-button{
-    border:0;
-    padding:12px 18px;
-    border-radius:10px;
-    cursor:pointer;
-    font-size:15px;
-    margin-top:8px;
-}
+    .channel {
+      background: #0b2b55;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 5px 20px #0006;
+      transition: .2s;
+    }
 
-.add{
-    background:#20a052;
-    color:white;
-    width:100%;
-}
+    .channel:hover {
+      transform: translateY(-4px);
+    }
 
-.channel{
-    background:#111820;
-    border:1px solid #26313d;
-    border-radius:15px;
-    padding:18px;
-    margin-bottom:15px;
-}
+    .channel video {
+      width: 100%;
+      height: 150px;
+      background: black;
+      display: block;
+    }
 
-.channel h2{
-    margin-top:0;
-}
+    .channel-content {
+      padding: 15px;
+    }
 
-.watch{
-    background:#1677ff;
-    color:white;
-    width:100%;
-}
+    .channel h2 {
+      font-size: 20px;
+      margin-bottom: 8px;
+    }
 
-.delete{
-    background:#d93636;
-    color:white;
-    width:100%;
-}
+    .watch {
+      width: 100%;
+      padding: 11px;
+      border: 0;
+      border-radius: 8px;
+      background: #0878e8;
+      color: white;
+      cursor: pointer;
+      font-size: 16px;
+    }
 
-iframe{
-    width:100%;
-    height:300px;
-    border:0;
-    border-radius:12px;
-    margin-top:12px;
-    display:none;
-}
+    .watch:hover {
+      background: #0561bc;
+    }
 
-.small{
-    color:#9ba7b3;
-    font-size:13px;
-}
-</style>
+    .login-box {
+      background: #0b2b55;
+      max-width: 400px;
+      margin: 30px auto;
+      padding: 25px;
+      border-radius: 15px;
+      display: none;
+    }
+
+    input {
+      width: 100%;
+      padding: 13px;
+      margin: 8px 0;
+      border: 0;
+      border-radius: 8px;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .login-btn,
+    .admin-btn {
+      width: 100%;
+      padding: 12px;
+      border: 0;
+      border-radius: 8px;
+      background: #0878e8;
+      color: white;
+      font-size: 16px;
+      margin-top: 8px;
+    }
+
+    .admin {
+      display: none;
+      background: #0b2b55;
+      padding: 20px;
+      border-radius: 15px;
+      margin-top: 25px;
+    }
+
+    .admin h2 {
+      margin-bottom: 15px;
+    }
+
+    .add-btn {
+      background: #00a86b;
+      color: white;
+      border: 0;
+      padding: 12px 20px;
+      border-radius: 8px;
+      margin-top: 10px;
+    }
+
+    footer {
+      margin-top: 40px;
+      padding: 25px;
+      text-align: center;
+      background: #041226;
+      color: #c9ddf5;
+    }
+
+    .social {
+      margin-top: 10px;
+      line-height: 2;
+    }
+  </style>
 </head>
 
 <body>
 
 <header>
-    <h1>📺 Kurd Games Live</h1>
-    <p>کەنالەکان</p>
+  <h1>📺 ibo TV</h1>
+  <p>بەخێربێیت بۆ ibo TV</p>
 </header>
 
 <div class="container">
 
-<div class="admin">
-    <h2>➕ زیادکردنی کەنال</h2>
+  <div class="channels" id="channels">
 
-    <input id="name" placeholder="ناوی کەنال">
+    <!-- کەنالی نموونە -->
+    <div class="channel">
+      <video controls>
+        <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+      </video>
 
-    <input id="youtube" placeholder="لینکی YouTube">
+      <div class="channel-content">
+        <h2>کەنالی تاقیکردنەوە</h2>
+        <p>پەخشی ڤیدیۆ</p>
+        <button class="watch" onclick="watchChannel()">
+          ▶️ سەیرکردن
+        </button>
+      </div>
+    </div>
 
-    <button class="add" onclick="addChannel()">
-        ➕ زیادکردنی کەنال
+  </div>
+
+  <!-- Login -->
+  <div class="login-box" id="loginBox">
+    <h2>🔐 چوونەژوورەوەی Admin</h2>
+
+    <input
+      type="text"
+      id="username"
+      placeholder="Username"
+    >
+
+    <input
+      type="password"
+      id="password"
+      placeholder="Password"
+    >
+
+    <button class="login-btn" onclick="login()">
+      چوونەژوورەوە
     </button>
 
-    <p class="small">
-        نموونە: https://www.youtube.com/watch?v=XXXXXXXXXXX
-    </p>
+    <p id="loginMessage"></p>
+  </div>
+
+  <!-- Admin Panel -->
+  <div class="admin" id="adminPanel">
+
+    <h2>⚙️ Admin Panel - ibo TV</h2>
+
+    <p>👥 بینەری ئێستا: <b id="viewers">0</b></p>
+
+    <hr><br>
+
+    <h3>➕ زیادکردنی کەنال</h3>
+
+    <input
+      type="text"
+      id="channelName"
+      placeholder="ناوی کەنال"
+    >
+
+    <input
+      type="text"
+      id="videoUrl"
+      placeholder="لینکی ڤیدیۆ / MP4 / M3U8"
+    >
+
+    <button class="add-btn" onclick="addChannel()">
+      زیادکردنی کەنال
+    </button>
+
+  </div>
+
 </div>
 
-<div id="channels"></div>
+<footer>
 
-</div>
+  <div>📞 07701056497</div>
+
+  <div class="social">
+    👻 Snapchat: ibrahemn.qader
+  </div>
+
+  <p style="margin-top:15px;">
+    © 2026 ibo TV
+  </p>
+
+</footer>
 
 <script>
 
-let channels = JSON.parse(localStorage.getItem("kurdChannels")) || [];
+  // Login - تەنها بۆ تاقیکردنەوە
+  const ADMIN_USERNAME = "ibrahem97k";
+  const ADMIN_PASSWORD = "IBib1997";
 
-/* کەنالەکان نیشان بدە */
-function showChannels(){
+  let viewers = 0;
 
-    const box = document.getElementById("channels");
+  function openLogin() {
+    document.getElementById("loginBox").style.display = "block";
+  }
 
-    box.innerHTML = "";
+  function login() {
 
-    channels.forEach((channel,index)=>{
+    const username =
+      document.getElementById("username").value;
 
-        box.innerHTML += `
-        <div class="channel">
+    const password =
+      document.getElementById("password").value;
 
-            <h2>📺 ${escapeHTML(channel.name)}</h2>
+    if (
+      username === ADMIN_USERNAME &&
+      password === ADMIN_PASSWORD
+    ) {
 
-            <button class="watch"
-                onclick="watchChannel(${index})">
-                ▶️ بینینی کەنال
-            </button>
+      document.getElementById("loginBox").style.display = "none";
 
-            <iframe
-                id="video${index}"
-                allow="autoplay; encrypted-media"
-                allowfullscreen>
-            </iframe>
+      document.getElementById("adminPanel").style.display = "block";
 
-            <button class="delete"
-                onclick="deleteChannel(${index})">
-                🗑️ سڕینەوەی کەنال
-            </button>
+      alert("بەخێربێیت بۆ Admin Panel");
 
-        </div>
-        `;
-    });
-}
+    } else {
 
+      document.getElementById("loginMessage").innerText =
+        "❌ Username یان Password هەڵەیە";
 
-/* زیادکردنی کەنال */
-function addChannel(){
+    }
+  }
 
-    const name = document.getElementById("name").value.trim();
-    const youtube = document.getElementById("youtube").value.trim();
+  function watchChannel() {
 
-    if(!name || !youtube){
+    viewers++;
 
-        alert("تکایە ناوی کەنال و لینکی YouTube بنووسە");
+    document.getElementById("viewers").innerText =
+      viewers;
+  }
 
-        return;
+  function addChannel() {
+
+    const name =
+      document.getElementById("channelName").value;
+
+    const url =
+      document.getElementById("videoUrl").value;
+
+    if (!name || !url) {
+      alert("تکایە ناوی کەنال و لینک بنووسە");
+      return;
     }
 
-    const videoId = getYouTubeID(youtube);
+    const channel =
+      document.createElement("div");
 
-    if(!videoId){
+    channel.className = "channel";
 
-        alert("لینکی YouTube دروست نییە");
+    channel.innerHTML = `
+      <video controls>
+        <source src="${url}">
+      </video>
 
-        return;
-    }
+      <div class="channel-content">
+        <h2>${name}</h2>
 
-    channels.push({
-        name:name,
-        video:videoId
-    });
+        <p>پەخشی ڤیدیۆ</p>
 
-    localStorage.setItem(
-        "kurdChannels",
-        JSON.stringify(channels)
-    );
+        <button class="watch"
+          onclick="watchChannel()">
+          ▶️ سەیرکردن
+        </button>
+      </div>
+    `;
 
-    document.getElementById("name").value="";
-    document.getElementById("youtube").value="";
+    document
+      .getElementById("channels")
+      .appendChild(channel);
 
-    showChannels();
-}
+    document.getElementById("channelName").value = "";
+    document.getElementById("videoUrl").value = "";
 
+    alert("✅ کەنال زیادکرا");
+  }
 
-/* بینینی کەنال */
-function watchChannel(index){
+  // بۆ کردنەوەی Login
+  const adminLink = document.createElement("button");
 
-    const iframe = document.getElementById("video"+index);
+  adminLink.innerText = "🔐 Admin";
 
-    iframe.src =
-        "https://www.youtube.com/embed/"
-        + channels[index].video
-        + "?autoplay=1";
+  adminLink.style.cssText =
+    "position:fixed;bottom:15px;left:15px;" +
+    "padding:10px 15px;border:0;border-radius:8px;" +
+    "background:#0878e8;color:white;z-index:9999;";
 
-    iframe.style.display="block";
-}
+  adminLink.onclick = openLogin;
 
-
-/* سڕینەوە */
-function deleteChannel(index){
-
-    if(confirm("دڵنیایت دەتەوێت ئەم کەنالە بسڕیتەوە؟")){
-
-        channels.splice(index,1);
-
-        localStorage.setItem(
-            "kurdChannels",
-            JSON.stringify(channels)
-        );
-
-        showChannels();
-    }
-}
-
-
-/* دەرهێنانی Video ID لە لینکی YouTube */
-function getYouTubeID(url){
-
-    try{
-
-        const u = new URL(url);
-
-        if(u.hostname.includes("youtu.be")){
-
-            return u.pathname.substring(1);
-        }
-
-        if(u.hostname.includes("youtube.com")){
-
-            return u.searchParams.get("v");
-        }
-
-    }catch(e){
-
-        return null;
-    }
-
-    return null;
-}
-
-
-/* پاراستنی ناوی کەنال */
-function escapeHTML(text){
-
-    return text
-        .replace(/&/g,"&amp;")
-        .replace(/</g,"&lt;")
-        .replace(/>/g,"&gt;")
-        .replace(/"/g,"&quot;")
-        .replace(/'/g,"&#039;");
-}
-
-
-showChannels();
+  document.body.appendChild(adminLink);
 
 </script>
 
