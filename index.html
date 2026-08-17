@@ -1,122 +1,290 @@
-
 <!DOCTYPE html>
 <html lang="ku" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kurd Games Live</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kurd Games Live</title>
 
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+<style>
+*{box-sizing:border-box}
 
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #0b0f14;
-      color: white;
-    }
+body{
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:#0b0f14;
+    color:white;
+}
 
-    header {
-      padding: 20px;
-      text-align: center;
-      background: #111820;
-      border-bottom: 1px solid #26313d;
-    }
+header{
+    padding:20px;
+    text-align:center;
+    background:#111820;
+    border-bottom:1px solid #26313d;
+}
 
-    header h1 {
-      margin: 0;
-      font-size: 28px;
-    }
+header h1{
+    margin:0;
+}
 
-    header p {
-      color: #aeb8c2;
-    }
+.container{
+    max-width:900px;
+    margin:auto;
+    padding:20px;
+}
 
-    .container {
-      width: 95%;
-      max-width: 1000px;
-      margin: 25px auto;
-    }
+.admin{
+    background:#111820;
+    padding:20px;
+    border-radius:15px;
+    margin-bottom:25px;
+}
 
-    .live {
-      background: #151d26;
-      padding: 15px;
-      border-radius: 15px;
-      margin-bottom: 25px;
-    }
+input{
+    width:100%;
+    padding:14px;
+    margin:7px 0;
+    border-radius:10px;
+    border:1px solid #394653;
+    background:#080c11;
+    color:white;
+    font-size:16px;
+}
 
-    .live h2 {
-      margin-top: 0;
-    }
+button{
+    border:0;
+    padding:12px 18px;
+    border-radius:10px;
+    cursor:pointer;
+    font-size:15px;
+    margin-top:8px;
+}
 
-    .video {
-      position: relative;
-      width: 100%;
-      padding-bottom: 56.25%;
-      height: 0;
-      overflow: hidden;
-      border-radius: 12px;
-      background: black;
-    }
+.add{
+    background:#20a052;
+    color:white;
+    width:100%;
+}
 
-    .video iframe {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      border: 0;
-      left: 0;
-      top: 0;
-    }
+.channel{
+    background:#111820;
+    border:1px solid #26313d;
+    border-radius:15px;
+    padding:18px;
+    margin-bottom:15px;
+}
 
-    .games {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 15px;
-    }
+.channel h2{
+    margin-top:0;
+}
 
-    .game {
-      background: #151d26;
-      padding: 20px;
-      border-radius: 12px;
-      text-align: center;
-    }
+.watch{
+    background:#1677ff;
+    color:white;
+    width:100%;
+}
 
-    .game h3 {
-      margin-top: 0;
-    }
+.delete{
+    background:#d93636;
+    color:white;
+    width:100%;
+}
 
-    .button {
-      display: inline-block;
-      padding: 10px 18px;
-      background: #e53935;
-      color: white;
-      text-decoration: none;
-      border-radius: 8px;
-      margin-top: 10px;
-    }
+iframe{
+    width:100%;
+    height:300px;
+    border:0;
+    border-radius:12px;
+    margin-top:12px;
+    display:none;
+}
 
-    footer {
-      text-align: center;
-      padding: 25px;
-      color: #8d99a5;
-    }
-  </style>
+.small{
+    color:#9ba7b3;
+    font-size:13px;
+}
+</style>
 </head>
 
 <body>
 
 <header>
-  <h1>🎮 Kurd Games Live</h1>
-  <p>پەخشی یارییەکان بە ڕاستەوخۆ</p>
+    <h1>📺 Kurd Games Live</h1>
+    <p>کەنالەکان</p>
 </header>
 
 <div class="container">
 
-  <section class="live">
-    <h2>🔴 پەخشی ڕاستەوخۆ</h2>
+<div class="admin">
+    <h2>➕ زیادکردنی کەنال</h2>
 
-    <div class="video">
-      <iframe
-        src="https://www.youtube.com/embed/live
+    <input id="name" placeholder="ناوی کەنال">
+
+    <input id="youtube" placeholder="لینکی YouTube">
+
+    <button class="add" onclick="addChannel()">
+        ➕ زیادکردنی کەنال
+    </button>
+
+    <p class="small">
+        نموونە: https://www.youtube.com/watch?v=XXXXXXXXXXX
+    </p>
+</div>
+
+<div id="channels"></div>
+
+</div>
+
+<script>
+
+let channels = JSON.parse(localStorage.getItem("kurdChannels")) || [];
+
+/* کەنالەکان نیشان بدە */
+function showChannels(){
+
+    const box = document.getElementById("channels");
+
+    box.innerHTML = "";
+
+    channels.forEach((channel,index)=>{
+
+        box.innerHTML += `
+        <div class="channel">
+
+            <h2>📺 ${escapeHTML(channel.name)}</h2>
+
+            <button class="watch"
+                onclick="watchChannel(${index})">
+                ▶️ بینینی کەنال
+            </button>
+
+            <iframe
+                id="video${index}"
+                allow="autoplay; encrypted-media"
+                allowfullscreen>
+            </iframe>
+
+            <button class="delete"
+                onclick="deleteChannel(${index})">
+                🗑️ سڕینەوەی کەنال
+            </button>
+
+        </div>
+        `;
+    });
+}
+
+
+/* زیادکردنی کەنال */
+function addChannel(){
+
+    const name = document.getElementById("name").value.trim();
+    const youtube = document.getElementById("youtube").value.trim();
+
+    if(!name || !youtube){
+
+        alert("تکایە ناوی کەنال و لینکی YouTube بنووسە");
+
+        return;
+    }
+
+    const videoId = getYouTubeID(youtube);
+
+    if(!videoId){
+
+        alert("لینکی YouTube دروست نییە");
+
+        return;
+    }
+
+    channels.push({
+        name:name,
+        video:videoId
+    });
+
+    localStorage.setItem(
+        "kurdChannels",
+        JSON.stringify(channels)
+    );
+
+    document.getElementById("name").value="";
+    document.getElementById("youtube").value="";
+
+    showChannels();
+}
+
+
+/* بینینی کەنال */
+function watchChannel(index){
+
+    const iframe = document.getElementById("video"+index);
+
+    iframe.src =
+        "https://www.youtube.com/embed/"
+        + channels[index].video
+        + "?autoplay=1";
+
+    iframe.style.display="block";
+}
+
+
+/* سڕینەوە */
+function deleteChannel(index){
+
+    if(confirm("دڵنیایت دەتەوێت ئەم کەنالە بسڕیتەوە؟")){
+
+        channels.splice(index,1);
+
+        localStorage.setItem(
+            "kurdChannels",
+            JSON.stringify(channels)
+        );
+
+        showChannels();
+    }
+}
+
+
+/* دەرهێنانی Video ID لە لینکی YouTube */
+function getYouTubeID(url){
+
+    try{
+
+        const u = new URL(url);
+
+        if(u.hostname.includes("youtu.be")){
+
+            return u.pathname.substring(1);
+        }
+
+        if(u.hostname.includes("youtube.com")){
+
+            return u.searchParams.get("v");
+        }
+
+    }catch(e){
+
+        return null;
+    }
+
+    return null;
+}
+
+
+/* پاراستنی ناوی کەنال */
+function escapeHTML(text){
+
+    return text
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+}
+
+
+showChannels();
+
+</script>
+
+</body>
+</html>
