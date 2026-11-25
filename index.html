@@ -1,50 +1,210 @@
 <!doctype html>
-<html lang="ckb" dir="rtl">
+<html lang="ku" dir="rtl">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#07111f">
-<title>IBO LIVE TV</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>IBO TV</title>
 <style>
-:root{--bg:#07111f;--panel:#101d30;--panel2:#14243a;--line:#263a55;--muted:#93a4ba;--text:#f4f7fb;--gold:#e8b85c;--red:#ef5965}*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 75% -20%,#16375a 0,transparent 45%),var(--bg);color:var(--text);font-family:'Noto Sans Arabic',Tahoma,sans-serif;min-height:100vh}button,input,select{font:inherit}button{cursor:pointer;border:0}.wrap{max-width:1180px;margin:auto;padding:0 20px}.top{position:sticky;top:0;z-index:5;background:#07111fee;border-bottom:1px solid var(--line);backdrop-filter:blur(18px)}.nav{height:72px;display:flex;align-items:center;justify-content:space-between;gap:14px}.brand{display:flex;align-items:center;gap:11px;font-weight:900;font-size:23px}.logoMark{width:42px;height:42px;border-radius:13px;background:linear-gradient(145deg,#f2cc79,#bb7c24);color:#101827;display:grid;place-items:center;font-weight:900}.btn{border:1px solid var(--line);background:var(--panel);color:var(--text);padding:10px 15px;border-radius:11px}.btn.gold{background:linear-gradient(120deg,#f2c66d,#d99532);color:#171b22;border:0;font-weight:800}.btn.red{background:#4b202b;border-color:#71303a;color:#ffb5bb}.hero{padding:48px 0 30px;display:grid;grid-template-columns:1.4fr .6fr;gap:22px;align-items:center}.eyebrow{color:var(--gold);font-size:13px;font-weight:800;letter-spacing:1px}.hero h1{font-size:clamp(30px,5vw,50px);line-height:1.4;margin:10px 0}.hero p{color:var(--muted);line-height:2;margin:0}.heroBox{background:linear-gradient(145deg,#152a43,#0c1727);border:1px solid #29415e;border-radius:22px;padding:22px;min-height:150px;display:flex;flex-direction:column;justify-content:space-between}.live{color:#ff777e;font-size:13px;font-weight:800}.dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#ff5964;margin-left:7px}.stats{display:flex;gap:24px;margin-top:15px}.stats b{display:block;font-size:24px}.stats small{color:var(--muted)}.sectionHead{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:20px 0}.sectionHead h2{font-size:22px;margin:0}.search{width:min(320px,100%);padding:12px 14px;border-radius:11px;border:1px solid var(--line);background:var(--panel);color:white;outline:none}.groups{display:flex;gap:8px;overflow:auto;padding:2px 0 16px}.groupBtn{white-space:nowrap;border:1px solid var(--line);background:var(--panel);color:#c2d0e0;padding:9px 15px;border-radius:30px}.groupBtn.active{background:var(--gold);color:#17202b;border-color:var(--gold);font-weight:800}.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:15px;padding-bottom:55px}.channel{background:linear-gradient(160deg,#14243a,#0d1929);border:1px solid var(--line);border-radius:17px;overflow:hidden;cursor:pointer;transition:.2s}.channel:hover{transform:translateY(-3px);border-color:#b98b42}.poster{height:130px;display:grid;place-items:center;background:radial-gradient(circle at 50% 20%,#294c6c,#101d30 68%);position:relative}.poster img{max-width:78%;max-height:78%;object-fit:contain}.poster .fallback{font-size:38px;font-weight:900;color:var(--gold)}.chinfo{padding:13px}.chinfo b{display:block}.chinfo small{display:block;color:var(--muted);margin-top:4px}.empty{grid-column:1/-1;text-align:center;padding:55px 15px;border:1px dashed var(--line);border-radius:16px;color:var(--muted)}footer{border-top:1px solid var(--line);padding:25px 0;color:var(--muted);font-size:12px}.modal{position:fixed;inset:0;z-index:20;background:#000c;display:none;align-items:center;justify-content:center;padding:15px}.modal.show{display:flex}.dialog{width:min(760px,100%);max-height:92vh;overflow:auto;background:#101d30;border:1px solid #344b67;border-radius:19px;padding:20px}.dialogHead{display:flex;justify-content:space-between;align-items:center}.close{background:#25364c;color:white;width:36px;height:36px;border-radius:10px}.field{display:grid;gap:6px;margin:11px 0}.field label{font-size:13px;color:#b6c5d8}.field input,.field select,.field textarea{width:100%;padding:12px;background:#091525;border:1px solid var(--line);border-radius:10px;color:white;outline:none}.field textarea{min-height:75px}.row{display:flex;gap:9px;flex-wrap:wrap}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.panel{background:#0b1727;border:1px solid var(--line);border-radius:14px;padding:14px;margin:14px 0}.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.kpi{padding:13px;background:#0b1727;border:1px solid var(--line);border-radius:12px}.kpi b{display:block;font-size:24px;color:var(--gold)}.kpi small{color:var(--muted)}.adminRow{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:11px;background:#0b1727;border:1px solid var(--line);border-radius:11px;margin:8px 0}.adminRow .row{flex-shrink:0}.notice{padding:11px;border-radius:10px;background:#19334b;color:#c7e5ff;font-size:13px;line-height:1.8}.error{color:#ff9ca7;font-size:13px}.player{width:100%;aspect-ratio:16/9;background:#000;border-radius:13px}.toast{position:fixed;bottom:20px;left:20px;z-index:40;background:#19334b;border:1px solid #355c7b;padding:12px 16px;border-radius:11px;display:none}.toast.show{display:block}
-@media(max-width:850px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}.hero{grid-template-columns:1fr}}@media(max-width:580px){.wrap{padding:0 14px}.nav{height:64px}.brand{font-size:19px}.logoMark{width:36px;height:36px}.hero{padding:32px 0 20px}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.poster{height:108px}.chinfo{padding:10px}.chinfo b{font-size:13px}.sectionHead{align-items:flex-start;flex-direction:column}.search{width:100%}.formgrid{grid-template-columns:1fr}.kpis{grid-template-columns:repeat(3,1fr)}.kpi{padding:9px}.kpi b{font-size:19px}}
-</style></head>
+:root{--blue:#1687ed;--navy:#061d3b;--panel:#123d6c;--soft:#092c55}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,Tahoma,sans-serif;background:var(--navy);color:#fff}
+header{background:var(--blue);text-align:center;padding:28px 14px}
+.logo{font-size:clamp(36px,7vw,55px);font-weight:bold;direction:ltr}
+.welcome{font-size:clamp(18px,4vw,27px);margin-top:10px}
+.notice{max-width:1000px;margin:14px auto 0;padding:10px 14px;background:#0d5eaa;border-radius:12px;display:none}
+main{max-width:1100px;margin:auto;padding:16px}
+.groups{display:flex;gap:10px;overflow-x:auto;background:var(--soft);padding:14px;border-radius:16px}
+.group-btn,.channel-btn,.btn{border:0;border-radius:12px;padding:12px 18px;background:var(--blue);color:white;font-size:16px;cursor:pointer;white-space:nowrap}
+.group-btn.active,.channel-btn.active{background:#fff;color:#1268ad}
+.channels{display:flex;gap:10px;overflow-x:auto;padding:14px 2px}
+.player-box,.info,.panel,.login{background:var(--panel);border-radius:20px;padding:18px;margin:18px 0}
+.player{width:100%;aspect-ratio:16/9;background:#000;border:0;border-radius:14px;display:block}
+video.player{object-fit:contain}
+.info{text-align:center}
+.info h2{margin:5px 0 10px}
+.info p{margin:0;line-height:1.7}
+.panel,.login{display:none}
+.panel input,.panel textarea,.login input{width:100%;padding:12px;margin:7px 0;border:0;border-radius:10px;font-size:16px}
+.panel textarea{min-height:75px}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.btn.secondary{background:#536b83}.btn.danger{background:#b83242}
+.admin-toggle{display:block;margin:20px auto}
+.small{font-size:13px;color:#d7e8f8;line-height:1.6}
+.status{margin-top:8px;color:#ffd27a}
+footer{text-align:center;padding:22px;color:#c9ddf2}
+footer a{color:#fff}
+@media(max-width:600px){main{padding:10px}.player-box,.info,.panel,.login{padding:13px}.group-btn,.channel-btn{font-size:14px;padding:11px 14px}}
+</style>
+</head>
 <body>
-<header class="top"><div class="wrap nav"><div class="brand"><div class="logoMark">IB</div><span>IBO <span style="color:var(--gold)">LIVE TV</span></span></div><button class="btn" id="adminOpen">بەشی ئەدمین</button></div></header>
-<main class="wrap"><section class="hero"><div><div class="eyebrow">IBO TV · LIVE STREAMING</div><h1>بەخێربێیت بۆ <span style="color:var(--gold)">IBO LIVE TV</span></h1><p>کەناڵەکانت بە ئاسانی ببینە. کەناڵێک هەڵبژێرە و چێژ لە پەخشەکە وەربگرە.</p></div><div class="heroBox"><div class="live"><span class="dot"></span> پەخشی ئۆنلاین</div><div class="stats"><div><b id="channelCount">0</b><small>کەناڵ</small></div><div><b id="groupCount">0</b><small>گرووپ</small></div></div></div></section>
-<div class="sectionHead"><h2>کەناڵەکان</h2><input class="search" id="search" placeholder="گەڕان بە ناوی کەناڵ..."></div><div class="groups" id="groups"><button class="groupBtn active" data-id="all">هەموو کەناڵەکان</button></div><section class="grid" id="channels"><div class="empty">کەناڵەکان بار دەکرێن...</div></section></main>
-<footer><div class="wrap">© IBO LIVE TV — هەموو مافەکان پارێزراون</div></footer>
-<div class="modal" id="loginModal"><div class="dialog"><div class="dialogHead"><h2>چوونەژوورەوەی ئەدمین</h2><button class="close" data-close>✕</button></div><p class="notice">بینەران بێ چوونەژوورەوە کەناڵەکان دەبینن. تەنها ئەدمین دەتوانێت دەستکاری بکات.</p><div class="field"><label>ئیمەیڵ یان ناوی بەکارهێنەر</label><input id="email" autocomplete="username" placeholder="ibrahem97k یان ئیمەیڵ"></div><div class="field"><label>وشەی نهێنی</label><input id="password" type="password" autocomplete="current-password" placeholder="وشەی نهێنی"></div><button class="btn gold" id="signIn">چوونەژوورەوە</button><p class="error" id="loginMsg"></p></div></div>
-<div class="modal" id="adminModal"><div class="dialog"><div class="dialogHead"><h2>بەڕێوەبردنی IBO LIVE TV</h2><button class="close" data-close>✕</button></div><div class="kpis"><div class="kpi"><b id="totalChannels">0</b><small>کەناڵ</small></div><div class="kpi"><b id="todayVisits">0</b><small>سەردانی ئەمڕۆ</small></div><div class="kpi"><b id="monthVisits">0</b><small>سەردانی ئەم مانگە</small></div></div>
-<div class="panel"><h3>زیادکردنی گرووپ</h3><div class="row"><input class="field" style="flex:1;min-width:170px" id="groupName" placeholder="ناوی گرووپ"><button class="btn gold" id="addGroup">زیادکردن</button></div></div>
-<div class="panel"><h3>زیادکردن / دەستکاریکردنی کەناڵ</h3><input type="hidden" id="channelId"><div class="formgrid"><div class="field"><label>ناوی کەناڵ</label><input id="channelName" placeholder="ناوی کەناڵ"></div><div class="field"><label>گرووپ</label><select id="channelGroup"><option value="">بێ گرووپ</option></select></div><div class="field"><label>لینکی پەخش (m3u8 / mp4)</label><input id="streamUrl" placeholder="https://..."></div><div class="field"><label>لینکی لۆگۆ</label><input id="logoUrl" placeholder="https://..."></div><div class="field"><label>وڵات</label><input id="country" placeholder="Iraq"></div><div class="field"><label>زانیاری</label><input id="description" placeholder="دەربارەی کەناڵ"></div></div><div class="row"><button class="btn gold" id="saveChannel">پاشەکەوتکردن</button><button class="btn" id="clearForm">پاککردنەوە</button><button class="btn red" id="signOut">چوونەدەرەوە</button></div><p id="adminMsg" class="error"></p></div>
-<div class="panel"><h3>لیستی کەناڵەکان</h3><div id="adminList"></div></div><div class="notice">پاراستن: دەسەڵاتی دەستکاری لە Supabase RLS و app_metadata.role=admin کۆنترۆڵ دەکرێت؛ وشەی نهێنی لە کۆدی سایتدا دانەنراوە.</div></div></div>
-<div class="modal" id="playerModal"><div class="dialog"><div class="dialogHead"><h2 id="playerTitle">کەناڵ</h2><button class="close" data-close>✕</button></div><video id="video" class="player" controls playsinline></video><p class="notice" id="playerNote">ئەگەر کەناڵەکە پەخش نەبوو، تکایە لینکی پەخشی ڕاست و مۆڵەتپێدراو بەکاربهێنە.</p></div></div><div class="toast" id="toast"></div>
+<header>
+ <div class="logo">📺 IBO TV</div>
+ <div class="welcome">بەخێربێیت بۆ IBO TV</div>
+ <div id="notice" class="notice"></div>
+</header>
+<main>
+ <div id="groups" class="groups" aria-label="کۆمەڵەکان"></div>
+ <div id="channels" class="channels" aria-label="کەنالەکان"></div>
+ <section class="player-box">
+  <video id="videoPlayer" class="player" controls playsinline style="display:none"></video>
+  <iframe id="framePlayer" class="player" title="پەخش" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen referrerpolicy="no-referrer" style="display:none"></iframe>
+  <div id="emptyPlayer" class="player" style="display:grid;place-items:center;color:#fff">کەنالێک هەڵبژێرە</div>
+ </section>
+ <section class="info">
+  <h2 id="channelTitle">IBO TV</h2>
+  <p id="channelDescription">بەخێربێیت بۆ IBO TV</p>
+ </section>
+
+ <button class="btn admin-toggle" id="adminToggle">🔐 بەشی بەڕێوەبەر</button>
+ <section class="login" id="loginBox">
+  <h3>چوونەژوورەوەی بەڕێوەبەر</h3>
+  <input id="email" type="email" autocomplete="username" placeholder="ئیمەیڵ">
+  <input id="password" type="password" autocomplete="current-password" placeholder="وشەی نهێنی">
+  <button class="btn" id="loginBtn">چوونەژوورەوە</button>
+  <div id="loginStatus" class="status"></div>
+ </section>
+
+ <section class="panel" id="adminPanel">
+  <h3>کۆنترۆڵی IBO TV</h3>
+  <div class="small">تەنها بەڕێوەبەری ڕێگەپێدراو دەتوانێت گۆڕانکاری بکات. دڵنیابە لەوەی لینکی کەنالەکان مافی پەخشکردنیان هەیە.</div>
+  <hr>
+  <h4>زیادکردنی کۆمەڵە</h4>
+  <input id="groupName" placeholder="ناوی کۆمەڵە">
+  <button class="btn" id="addGroupBtn">زیادکردنی کۆمەڵە</button>
+  <hr>
+  <h4>زیادکردنی کەنال بۆ کۆمەڵەی هەڵبژێردراو</h4>
+  <input id="channelName" placeholder="ناوی کەنال">
+  <input id="channelUrl" type="url" placeholder="لینکی پەخش (MP4 یان لینکێکی Embed)">
+  <textarea id="channelDescriptionInput" placeholder="زانیاریی کەنال (ئارەزوومەندانە)"></textarea>
+  <button class="btn" id="addChannelBtn">زیادکردنی کەنال</button>
+  <hr>
+  <h4>گۆڕینی ئاگاداری سەرەوە</h4>
+  <input id="noticeInput" placeholder="دەقی ئاگاداری">
+  <button class="btn" id="saveNoticeBtn">پاشەکەوتکردنی ئاگاداری</button>
+  <hr>
+  <h4>لیستی کۆمەڵەکان و کەنالەکان</h4>
+  <div id="manageList"></div>
+  <div class="actions"><button class="btn secondary" id="logoutBtn">چوونەدەرەوە</button></div>
+  <div id="adminStatus" class="status"></div>
+ </section>
+</main>
+<footer>
+ <div>IBO TV</div>
+ <div>پەیوەندی: 07701056497</div>
+ <div><a href="https://t.me/ibo_1997" target="_blank" rel="noopener">کەناڵی تێلگرام</a></div>
+</footer>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 <script>
-const SUPABASE_URL="https://edrokbqvxubaembkqmlo.supabase.co";
-const SUPABASE_KEY="sb_publishable_IDJqfV3FcNbfQ-kkYFJ2Jg_-nhuxU-a";
-const ADMIN_USERNAME="ibrahem97k";
-const ADMIN_EMAIL="ibrahemn.qader@gmail.com";
-const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
-const $=id=>document.getElementById(id);let allChannels=[],allGroups=[],activeGroup="all",hls=null;
-let visitorId=localStorage.getItem("ibo_live_visitor");if(!visitorId){visitorId=crypto.randomUUID();localStorage.setItem("ibo_live_visitor",visitorId)}
-function esc(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
-function toast(s){$('toast').textContent=s;$('toast').classList.add('show');setTimeout(()=>$('toast').classList.remove('show'),2800)}
-function show(id){$(id).classList.add('show')}function hide(id){$(id).classList.remove('show')}
-document.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>b.closest('.modal').classList.remove('show'));
-async function track(type,channelId=null){try{await db.from('visitor_events').insert({event_type:type,visitor_id:visitorId,channel_id:channelId})}catch(e){console.warn('analytics unavailable',e.message)}}
-async function load(){const [g,c]=await Promise.all([db.from('channel_groups').select('*').eq('is_active',true).order('sort_order'),db.from('channels').select('*').eq('is_active',true).order('sort_order')]);if(g.error||c.error){$('channels').innerHTML='<div class="empty">نەتوانرا کەناڵەکان بار بکرێن. پەیوەندی Supabase بپشکنە.</div>';console.error(g.error||c.error);return}allGroups=g.data||[];allChannels=c.data||[];$('channelCount').textContent=allChannels.length;$('groupCount').textContent=allGroups.length;renderGroups();renderChannels();if(!sessionStorage.getItem('ibo_site_visit')){track('site_visit');sessionStorage.setItem('ibo_site_visit','1')}}
-function renderGroups(){const host=$('groups');host.innerHTML='<button class="groupBtn '+(activeGroup==='all'?'active':'')+'" data-id="all">هەموو کەناڵەکان</button>'+allGroups.map(g=>'<button class="groupBtn '+(activeGroup===g.id?'active':'')+'" data-id="'+g.id+'">'+esc(g.name)+'</button>').join('');host.querySelectorAll('button').forEach(b=>b.onclick=()=>{activeGroup=b.dataset.id;renderGroups();renderChannels()})}
-function renderChannels(){const q=$('search').value.trim().toLowerCase();const rows=allChannels.filter(c=>(activeGroup==='all'||c.group_id===activeGroup)&&(!q||c.name.toLowerCase().includes(q)));$('channels').innerHTML=rows.length?rows.map(c=>'<article class="channel" data-id="'+c.id+'"><div class="poster">'+(c.logo_url?'<img src="'+esc(c.logo_url)+'" alt="" onerror="this.remove()">':'<span class="fallback">TV</span>')+'</div><div class="chinfo"><b>'+esc(c.name)+'</b><small>'+esc(c.country||'IBO LIVE TV')+'</small></div></article>').join(''):'<div class="empty">هێشتا کەناڵێک زیاد نەکراوە.</div>';document.querySelectorAll('.channel').forEach(el=>el.onclick=()=>play(el.dataset.id))}
-async function play(id){const c=allChannels.find(x=>x.id===id);if(!c)return;$('playerTitle').textContent=c.name;show('playerModal');const v=$('video');if(hls){hls.destroy();hls=null}v.pause();v.removeAttribute('src');v.load();if(c.stream_url.includes('.m3u8')&&window.Hls&&Hls.isSupported()){hls=new Hls();hls.loadSource(c.stream_url);hls.attachMedia(v)}else{v.src=c.stream_url}track('channel_view',id);try{await v.play()}catch(e){}}
-$('search').oninput=renderChannels;$('adminOpen').onclick=()=>show('loginModal');
-$('signIn').onclick=async()=>{const entered=$('email').value.trim();const email=entered.toLowerCase()===ADMIN_USERNAME.toLowerCase()?ADMIN_EMAIL:entered;$('loginMsg').textContent='چاوەڕێ بکە...';const {data,error}=await db.auth.signInWithPassword({email,password:$('password').value});if(error){$('loginMsg').textContent='چوونەژوورەوە سەرکەوتوو نەبوو. ئیمەیڵ/وشەی نهێنی بپشکنە.';return}if(data.user?.app_metadata?.role!=='admin'){await db.auth.signOut();$('loginMsg').textContent='ئەم هەژمارە هێشتا دەسەڵاتی ئەدمینی نییە.';return}hide('loginModal');$('password').value='';await adminRefresh();show('adminModal')};
-async function adminRefresh(){const [{data:g,error:ge},{data:c,error:ce},{data:ev,error:ee}]=await Promise.all([db.from('channel_groups').select('*').order('sort_order'),db.from('channels').select('*').order('sort_order'),db.from('visitor_events').select('event_type,created_at')]);if(ge||ce){$('adminMsg').textContent=(ge||ce).message;return}allGroups=g||[];allChannels=c||[];$('totalChannels').textContent=allChannels.length;const now=new Date(),day=new Date(now.getFullYear(),now.getMonth(),now.getDate()).toISOString(),month=new Date(now.getFullYear(),now.getMonth(),1).toISOString();$('todayVisits').textContent=(ev||[]).filter(e=>e.event_type==='site_visit'&&e.created_at>=day).length;$('monthVisits').textContent=(ev||[]).filter(e=>e.event_type==='site_visit'&&e.created_at>=month).length;$('channelGroup').innerHTML='<option value="">بێ گرووپ</option>'+allGroups.map(x=>'<option value="'+x.id+'">'+esc(x.name)+'</option>').join('');$('adminList').innerHTML=allChannels.map(c=>'<div class="adminRow"><span>'+esc(c.name)+'</span><span class="row"><button class="btn" data-edit="'+c.id+'">دەستکاری</button><button class="btn red" data-del="'+c.id+'">سڕینەوە</button></span></div>').join('')||'<p class="muted">کەناڵ نییە.</p>';document.querySelectorAll('[data-edit]').forEach(b=>b.onclick=()=>editChannel(b.dataset.edit));document.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>deleteChannel(b.dataset.del));renderGroups();renderChannels()}
-$('addGroup').onclick=async()=>{const name=$('groupName').value.trim();if(!name)return;const slug=name.toLowerCase().normalize('NFKD').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')+'-'+Date.now();const {error}=await db.from('channel_groups').insert({name,slug});$('adminMsg').textContent=error?.message||'گرووپ زیادکرا.';if(!error){$('groupName').value='';await adminRefresh()}};
-$('saveChannel').onclick=async()=>{const id=$('channelId').value;const row={name:$('channelName').value.trim(),group_id:$('channelGroup').value||null,stream_url:$('streamUrl').value.trim(),logo_url:$('logoUrl').value.trim()||null,country:$('country').value.trim()||null,description:$('description').value.trim()||null};if(!row.name||!row.stream_url){$('adminMsg').textContent='ناوی کەناڵ و لینکی پەخش پێویستن.';return}const res=id?await db.from('channels').update(row).eq('id',id):await db.from('channels').insert(row);$('adminMsg').textContent=res.error?.message||'کەناڵ پاشەکەوت کرا.';if(!res.error){clearForm();await adminRefresh()}};
-function clearForm(){$('channelId').value='';['channelName','streamUrl','logoUrl','country','description'].forEach(id=>$(id).value='');$('channelGroup').value=''}$('clearForm').onclick=clearForm;
-function editChannel(id){const c=allChannels.find(x=>x.id===id);if(!c)return;$('channelId').value=c.id;$('channelName').value=c.name;$('channelGroup').value=c.group_id||'';$('streamUrl').value=c.stream_url;$('logoUrl').value=c.logo_url||'';$('country').value=c.country||'';$('description').value=c.description||'';window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'})}
-async function deleteChannel(id){if(!confirm('دڵنیایت لە سڕینەوەی ئەم کەناڵە؟'))return;const {error}=await db.from('channels').delete().eq('id',id);$('adminMsg').textContent=error?.message||'کەناڵ سڕایەوە.';if(!error)await adminRefresh()}
-$('signOut').onclick=async()=>{await db.auth.signOut();hide('adminModal');clearForm()};db.auth.onAuthStateChange((event)=>{if(event==='SIGNED_OUT')hide('adminModal')});load();
-</script></body></html>
+const firebaseConfig = {
+ apiKey: "AIzaSyBQl3sEoP2DT30RNodajtwP8PdSOOdUCGg",
+ authDomain: "ibotv22-701f9.firebaseapp.com",
+ projectId: "ibotv22-701f9",
+ storageBucket: "ibotv22-701f9.firebasestorage.app",
+ messagingSenderId: "140552230103",
+ appId: "1:140552230103:web:50fec2dfe4542f1a860c92",
+ measurementId: "G-5536L17L83"
+};
+const ADMIN_UID = "DNbVoT1LbyMy6oexnZxwEsAS1qH2";
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.firestore();
+let groups = [];
+let selectedGroupId = null;
+let selectedChannelId = null;
+let isAdmin = false;
+
+const $ = id => document.getElementById(id);
+const safeText = value => String(value || "");
+function status(id,msg){$(id).textContent=msg;}
+function isMp4(url){return /\.mp4($|[?#])/i.test(url);}
+function showChannel(channel){
+ if(!channel)return;
+ selectedChannelId=channel.id;
+ $("channelTitle").textContent=channel.name||"کەنال";
+ $("channelDescription").textContent=channel.description||"";
+ const video=$("videoPlayer"), frame=$("framePlayer"), empty=$("emptyPlayer");
+ video.pause(); video.removeAttribute("src"); video.load(); frame.removeAttribute("src"); frame.srcdoc="";
+ video.style.display="none";frame.style.display="none";empty.style.display="none";
+ const url=safeText(channel.url).trim();
+ if(!url){empty.style.display="grid";empty.textContent="لینکی پەخش بۆ ئەم کەنالە دانەنراوە";return;}
+ if(isMp4(url)){video.src=url;video.style.display="block";}
+ else{frame.src=url;frame.style.display="block";}
+ renderChannels();
+}
+function renderGroups(){
+ const root=$("groups");root.innerHTML="";
+ if(!groups.length){root.textContent="هێشتا هیچ کۆمەڵەیەک زیاد نەکراوە";return;}
+ groups.forEach(g=>{
+  const b=document.createElement("button");b.className="group-btn"+(g.id===selectedGroupId?" active":"");b.textContent=g.name;
+  b.onclick=()=>{selectedGroupId=g.id;selectedChannelId=null;renderGroups();renderChannels();$("channelTitle").textContent=g.name;$("channelDescription").textContent="کەنالێک هەڵبژێرە";$("videoPlayer").style.display="none";$("framePlayer").style.display="none";$("emptyPlayer").style.display="grid";$("emptyPlayer").textContent="کەنالێک هەڵبژێرە";};
+  root.appendChild(b);
+ });
+}
+function renderChannels(){
+ const root=$("channels");root.innerHTML="";
+ const group=groups.find(g=>g.id===selectedGroupId);
+ if(!group||!Array.isArray(group.channels)||!group.channels.length){root.textContent="هیچ کەنالێک لەم کۆمەڵەیەدا نییە";return;}
+ group.channels.forEach(c=>{
+  const b=document.createElement("button");b.className="channel-btn"+(c.id===selectedChannelId?" active":"");b.textContent=c.name;
+  b.onclick=()=>showChannel(c);root.appendChild(b);
+ });
+}
+function renderManage(){
+ const root=$("manageList");root.innerHTML="";
+ groups.forEach(g=>{
+  const wrap=document.createElement("div");wrap.style.cssText="padding:10px;margin:10px 0;background:#092c55;border-radius:12px";
+  const heading=document.createElement("strong");heading.textContent=g.name;wrap.appendChild(heading);
+  const rename=document.createElement("button");rename.className="btn secondary";rename.textContent="گۆڕینی ناو";rename.style.margin="8px";rename.onclick=async()=>{const n=prompt("ناوی نوێی کۆمەڵە:",g.name);if(n&&n.trim())await updateGroup(g.id,{name:n.trim()});};wrap.appendChild(rename);
+  const del=document.createElement("button");del.className="btn danger";del.textContent="سڕینەوەی کۆمەڵە";del.onclick=async()=>{if(confirm("ئایا دڵنیایت لە سڕینەوەی کۆمەڵە و هەموو کەنالەکانی؟")){await db.collection("groups").doc(g.id).delete();}};wrap.appendChild(del);
+  (g.channels||[]).forEach(c=>{
+   const line=document.createElement("div");line.style.cssText="padding:8px;border-top:1px solid #315b82;margin-top:8px";
+   const label=document.createElement("span");label.textContent=c.name+" ";line.appendChild(label);
+   const edit=document.createElement("button");edit.className="btn secondary";edit.textContent="دەستکاری";edit.style.margin="4px";edit.onclick=async()=>{const name=prompt("ناوی کەنال:",c.name);if(name===null)return;const url=prompt("لینکی کەنال:",c.url||"");if(url===null)return;const desc=prompt("زانیاری کەنال:",c.description||"")??c.description;const updated=(g.channels||[]).map(x=>x.id===c.id?{...x,name:name.trim()||c.name,url:url.trim(),description:desc}:x);await db.collection("groups").doc(g.id).update({channels:updated});};line.appendChild(edit);
+   const remove=document.createElement("button");remove.className="btn danger";remove.textContent="سڕینەوە";remove.onclick=async()=>{if(confirm("ئەم کەنالە بسڕدرێتەوە؟")){await db.collection("groups").doc(g.id).update({channels:(g.channels||[]).filter(x=>x.id!==c.id)});}};line.appendChild(remove);wrap.appendChild(line);
+  });
+  root.appendChild(wrap);
+ });
+}
+async function updateGroup(id,data){await db.collection("groups").doc(id).update(data);}
+db.collection("groups").orderBy("createdAt").onSnapshot(snap=>{
+ groups=snap.docs.map(d=>({id:d.id,...d.data()}));
+ if(!selectedGroupId||!groups.some(g=>g.id===selectedGroupId))selectedGroupId=groups[0]?.id||null;
+ renderGroups();renderChannels();if(isAdmin)renderManage();
+},err=>{console.error(err);status("adminStatus","هەڵە لە خوێندنەوەی داتا. ڕێساکانی Firestore بپشکنە.");});
+db.collection("settings").doc("site").onSnapshot(doc=>{
+ const notice=doc.exists?doc.data().notice:"";
+ $("notice").textContent=notice||"";$("notice").style.display=notice?"block":"none";
+ $("noticeInput").value=notice||"";
+});
+$("adminToggle").onclick=()=>{$("loginBox").style.display=$("loginBox").style.display==="block"?"none":"block";};
+$("loginBtn").onclick=async()=>{
+ status("loginStatus","چاوەڕێ بکە...");
+ try{const result=await auth.signInWithEmailAndPassword($("email").value.trim(),$("password").value);if(result.user.uid!==ADMIN_UID){await auth.signOut();throw new Error("ئەم هەژمارە دەسەڵاتی بەڕێوەبەری نییە.");}status("loginStatus","بە سەرکەوتوویی چوویتە ژوورەوە.");}
+ catch(e){status("loginStatus",e.message||"چوونەژوورەوە سەرکەوتوو نەبوو.");}
+};
+auth.onAuthStateChanged(user=>{
+ isAdmin=!!user&&user.uid===ADMIN_UID;
+ $("adminPanel").style.display=isAdmin?"block":"none";
+ if(user&&!isAdmin)auth.signOut();
+ if(isAdmin){$("loginBox").style.display="none";renderManage();}
+});
+$("addGroupBtn").onclick=async()=>{
+ const name=$("groupName").value.trim();if(!name)return status("adminStatus","ناوی کۆمەڵە بنووسە.");
+ try{const ref=await db.collection("groups").add({name,channels:[],createdAt:firebase.firestore.FieldValue.serverTimestamp()});selectedGroupId=ref.id;$("groupName").value="";status("adminStatus","کۆمەڵەکە زیاد کرا.");}
+ catch(e){status("adminStatus",e.message);}
+};
+$("addChannelBtn").onclick=async()=>{
+ const g=groups.find(x=>x.id===selectedGroupId),name=$("channelName").value.trim(),url=$("channelUrl").value.trim();
+ if(!g)return status("adminStatus","سەرەتا کۆمەڵەیەک هەڵبژێرە.");
+ if(!name||!url)return status("adminStatus","ناوی کەنال و لینکی پەخش پڕ بکەرەوە.");
+ try{const channel={id:crypto.randomUUID?crypto.randomUUID():String(Date.now()),name,url,description:$("channelDescriptionInput").value.trim()};await db.collection("groups").doc(g.id).update({channels:[...(g.channels||[]),channel]});$("channelName").value="";$("channelUrl").value="";$("channelDescriptionInput").value="";status("adminStatus","کەنالەکە زیاد کرا.");}
+ catch(e){status("adminStatus",e.message);}
+};
+$("saveNoticeBtn").onclick=async()=>{try{await db.collection("settings").doc("site").set({notice:$("noticeInput").value.trim()},{merge:true});status("adminStatus","ئاگاداری پاشەکەوت کرا.");}catch(e){status("adminStatus",e.message);}};
+$("logoutBtn").onclick=()=>auth.signOut();
+</script>
+</body>
+</html>
